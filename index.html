@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pearl — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f4f1;
+    --text: #1a1a18;
+    --muted: #6b6a65;
+    --border: rgba(0,0,0,0.12);
+    --border-strong: rgba(0,0,0,0.22);
+    --radius-md: 8px;
+    --radius-lg: 14px;
+    --accent: #1a1a18;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #18181a;
+      --bg2: #222224;
+      --text: #f0ede8;
+      --muted: #9a9893;
+      --border: rgba(255,255,255,0.1);
+      --border-strong: rgba(255,255,255,0.22);
+      --accent: #f0ede8;
+    }
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  .port {
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  /* HERO */
+  .hero {
+    border-bottom: 0.5px solid var(--border);
+    padding-bottom: 2.5rem;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 0.5px solid var(--border-strong);
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.6rem, 7vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.1rem;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--muted);
+  }
+
+  .hero-desc {
+    font-size: 15.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 1.5rem;
+  }
+
+  .stack-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .pill {
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 0.5px solid var(--border-strong);
+    color: var(--muted);
+  }
+
+  /* SECTION */
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  /* PROJECT CARDS */
+  .projects {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 3rem;
+  }
+
+  .proj-card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .proj-card:nth-child(1) { animation-delay: 0.15s; }
+  .proj-card:nth-child(2) { animation-delay: 0.25s; }
+  .proj-card:nth-child(3) { animation-delay: 0.35s; }
+
+  .proj-card:hover {
+    border-color: var(--border-strong);
+  }
+
+  /* Card summary row — always visible, clickable */
+  .proj-summary {
+    padding: 1.5rem 1.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    user-select: none;
+  }
+
+  .proj-left { flex: 1; }
+
+  .proj-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 4px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .proj-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+  }
+
+  .proj-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .proj-tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--bg2);
+    color: var(--muted);
+  }
+
+  .proj-toggle {
+    width: 32px;
+    height: 32px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--muted);
+    font-size: 16px;
+    transition: transform 0.3s, background 0.15s;
+  }
+
+  .proj-card.open .proj-toggle {
+    transform: rotate(45deg);
+  }
+
+  .proj-summary:hover .proj-toggle {
+    background: var(--bg2);
+  }
+
+  /* Expandable detail panel */
+  .proj-detail {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .proj-card.open .proj-detail {
+    max-height: 600px;
+  }
+
+  .proj-detail-inner {
+    border-top: 0.5px solid var(--border);
+    padding: 1.5rem 1.75rem;
+    background: var(--bg2);
+  }
+
+  .proj-desc {
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+  }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  @media (max-width: 540px) {
+    .detail-grid { grid-template-columns: 1fr; }
+  }
+
+  .detail-item label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .detail-item p {
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.55;
+  }
+
+  .highlight-bar {
+    font-size: 13px;
+    color: var(--muted);
+    border-left: 2px solid var(--border-strong);
+    padding-left: 10px;
+    margin-bottom: 1.25rem;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .proj-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    padding: 9px 18px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    color: var(--text);
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .proj-link-btn:hover {
+    background: var(--border);
+  }
+
+  /* CONTACT */
+  .contact-block {
+    border-top: 0.5px solid var(--border);
+    padding-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .contact-text {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .contact-text strong {
+    font-weight: 500;
+    color: var(--text);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .cta-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 10px 20px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .cta-btn:hover { background: var(--bg2); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="port">
+
+  <div class="hero">
+    <span class="hero-tag">Portfolio · 2025–2026</span>
+    <h1>아이디어를<br><em>실제 서비스로.</em></h1>
+    <p class="hero-desc">기획부터 배포까지 혼자 완성하는 풀스택 프로덕트 빌더. AI 툴을 활용해 실제 사용자가 쓰는 서비스를 빠르게 구현합니다.</p>
+    <div class="stack-pills">
+      <span class="pill">React</span>
+      <span class="pill">Firebase</span>
+      <span class="pill">Firestore</span>
+      <span class="pill">Vercel</span>
+      <span class="pill">GitHub Pages</span>
+      <span class="pill">Vite</span>
+    </div>
+  </div>
+
+  <p class="section-label">Projects — 3 live services</p>
+
+  <div class="projects">
+
+    <!-- PROJECT 01 -->
+    <div class="proj-card" data-index="0">
+      <div class="proj-summary" onclick="toggleCard(this)">
+        <div class="proj-left">
+          <p class="proj-num">01 · 게임 커뮤니티 툴</p>
+          <h2 class="proj-title">리그오브레전드 밴픽 시스템</h2>
+          <div class="proj-tags">
+            <span class="proj-tag">React</span>
+            <span class="proj-tag">Vercel</span>
+            <span class="proj-tag">실시간 인터랙션</span>
+          </div>
+        </div>
+        <div class="proj-toggle">+</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <p class="proj-desc">실제 토너먼트 팀들이 사용하는 실시간 밴픽 드래프트 사이트. 게임 챔피언 데이터를 기반으로 팀별 밴픽 진행을 관리하고 시각화합니다. Fearless 룰(이미 픽한 챔피언 재사용 금지)을 지원하는 특화 기능을 포함합니다.</p>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <label>핵심 기능</label>
+              <p>실시간 밴픽 순서 관리, 챔피언 검색·필터, Fearless 룰 적용, 팀별 결과 시각화</p>
+            </div>
+            <div class="detail-item">
+              <label>기술 스택</label>
+              <p>React, Vercel 배포, 챔피언 이미지 CDN 연동</p>
+            </div>
+          </div>
+          <p class="highlight-bar">게임 커뮤니티의 구체적인 니즈를 발견하고, 직접 기획·개발·배포까지 완성한 도메인 특화 서비스</p>
+          <a class="proj-link-btn" href="https://fearless-draftfinal.vercel.app/" target="_blank" rel="noopener">사이트 바로가기 ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 02 -->
+    <div class="proj-card" data-index="1">
+      <div class="proj-summary" onclick="toggleCard(this)">
+        <div class="proj-left">
+          <p class="proj-num">02 · 경매 시스템</p>
+          <h2 class="proj-title">선수 드래프트 경매 플랫폼</h2>
+          <div class="proj-tags">
+            <span class="proj-tag">GitHub Pages</span>
+            <span class="proj-tag">경매 로직</span>
+            <span class="proj-tag">상태 관리</span>
+          </div>
+        </div>
+        <div class="proj-toggle">+</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <p class="proj-desc">토너먼트 리그에서 선수를 경매 방식으로 드래프트하는 시스템. 예산 관리, 입찰 경쟁, 선수 매물 풀 관리 등 복잡한 경매 비즈니스 로직을 인터랙티브 UI로 구현해 실제 리그 운영에 활용 중입니다.</p>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <label>핵심 기능</label>
+              <p>팀별 예산 관리, 선수 매물 풀 뽑기, 실시간 입찰, 드래프트 결과 정산</p>
+            </div>
+            <div class="detail-item">
+              <label>기술 스택</label>
+              <p>JavaScript, GitHub Pages 배포, 복잡한 상태 관리 로직</p>
+            </div>
+          </div>
+          <p class="highlight-bar">복잡한 규칙 체계를 논리적으로 설계하고 시스템으로 구현한 경험 — 비즈니스 로직 설계 능력 증명</p>
+          <a class="proj-link-btn" href="https://shablanc.github.io/draft-arena/" target="_blank" rel="noopener">사이트 바로가기 ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 03 -->
+    <div class="proj-card" data-index="2">
+      <div class="proj-summary" onclick="toggleCard(this)">
+        <div class="proj-left">
+          <p class="proj-num">03 · 헬스케어 앱</p>
+          <h2 class="proj-title">운동 트래킹 앱 — Fitlog</h2>
+          <div class="proj-tags">
+            <span class="proj-tag">React</span>
+            <span class="proj-tag">Firebase</span>
+            <span class="proj-tag">Firestore</span>
+            <span class="proj-tag">실사용자 운영 중</span>
+          </div>
+        </div>
+        <div class="proj-toggle">+</div>
+      </div>
+      <div class="proj-detail">
+        <div class="proj-detail-inner">
+          <p class="proj-desc">멤버·트레이너 다중 역할을 지원하는 운동 관리 앱. 루틴 설정, 일일 체크리스트, 운동 다이어리, 캘린더 기록, 실시간 트레이너 피드백까지 — 실제 사용자(멤버 2명 + 트레이너)가 매일 사용 중인 live 서비스입니다.</p>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <label>핵심 기능</label>
+              <p>멤버/트레이너 권한 분리, 루틴 설정, 일일 체크리스트, 다이어리, 캘린더 스탬프, 실시간 피드백</p>
+            </div>
+            <div class="detail-item">
+              <label>기술 스택</label>
+              <p>React, Firebase Hosting, Firestore 실시간 DB, onSnapshot 리스너, base64 이미지 저장</p>
+            </div>
+          </div>
+          <p class="highlight-bar">기획부터 Firebase 풀스택 구현·배포까지 혼자 완성 — 실사용자가 있는 운영 중 서비스</p>
+          <a class="proj-link-btn" href="https://fitlog-app-4caa7.web.app/" target="_blank" rel="noopener">사이트 바로가기 ↗</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="contact-block">
+    <div class="contact-text">
+      <strong>함께 만들고 싶은 서비스가 있으신가요?</strong>
+      아이디어를 빠르게 실제 서비스로 구현합니다.
+    </div>
+    <a class="cta-btn" href="mailto:your@email.com">연락하기 ↗</a>
+  </div>
+
+</div>
+
+<script>
+function toggleCard(summaryEl) {
+  const card = summaryEl.closest('.proj-card');
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.proj-card.open').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+}
+</script>
+</body>
+</html>
